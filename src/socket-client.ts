@@ -1,4 +1,4 @@
-import {Manager} from "socket.io-client";
+import {Manager, Socket} from "socket.io-client";
 
 
 export const connectToServer = () => {
@@ -7,9 +7,24 @@ export const connectToServer = () => {
     //primero llega al server
     const socket = manager.socket('/');
 
-    console.log({socket});
+    addListeners(socket);
+
+}
 
 
+const addListeners = (socket: Socket ) => {
+    const serverSatusLabel = document.querySelector('#server-status')!;
 
+    //para escuchar socket.on, para hablar socket.emit
 
+    //escuchar el estado de la conexion
+    socket.on('connect',()=>{
+        // console.log('connected');
+        serverSatusLabel.innerHTML = 'connected';
+    })
+
+    socket.on('disconnect',()=>{
+        // console.log('disconnected');
+        serverSatusLabel.innerHTML = 'disconnected';
+    })
 }
