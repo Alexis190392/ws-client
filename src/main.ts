@@ -3,7 +3,13 @@ import {connectToServer} from "./socket-client.ts";
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
-      <h1>Websocket - Client</h1>
+      <h2>Websocket - Client</h2>
+      
+      <input id="jwtToken" placeholder="Json Web Token"/>
+      <button id="btn-connect">Connect</button>
+      <br/>
+      
+      
       
       <span id="server-status">Offline</span>
       
@@ -20,4 +26,12 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   </div>
 `
 
-connectToServer();
+// connectToServer();
+
+const inputJwt= document.querySelector<HTMLInputElement>('#jwtToken')!;
+const btnConnect= document.querySelector<HTMLButtonElement>('#btn-connect')!;
+
+btnConnect.addEventListener('click',()=>{
+    if (inputJwt.value.trim().length <= 0) return alert('Ingrese un token válido!')
+    connectToServer(inputJwt.value.trim());
+})
