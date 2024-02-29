@@ -17,6 +17,12 @@ const addListeners = (socket: Socket ) => {
     const serverSatusLabel = document.querySelector('#server-status')!;
     const clientsUl= document.querySelector('#clients-ul')!;
 
+    const messageForm = document.querySelector<HTMLFormElement>('#message-form')!;
+    const messageInput = document.querySelector<HTMLInputElement>('#message-input')!;
+
+
+
+
     //para escuchar socket.on, para hablar socket.emit
 
     //escuchar el estado de la conexion
@@ -40,5 +46,18 @@ const addListeners = (socket: Socket ) => {
             `
         });
         clientsUl.innerHTML = clientsHtml;
-    })
+    });
+
+    messageForm.addEventListener('submit', (event) =>{
+        event.preventDefault();//evitar la propagacion del form y no haga un refresh
+
+        if (messageInput.value.trim().length <= 0)
+            return;
+
+        socket.emit('message-from-client', {id: 'YO!!!', message: messageInput.value});
+
+        messageInput.value = '';
+
+
+    });
 }
