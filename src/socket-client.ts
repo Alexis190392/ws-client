@@ -16,11 +16,9 @@ const addListeners = (socket: Socket ) => {
 
     const serverSatusLabel = document.querySelector('#server-status')!;
     const clientsUl= document.querySelector('#clients-ul')!;
-
     const messageForm = document.querySelector<HTMLFormElement>('#message-form')!;
     const messageInput = document.querySelector<HTMLInputElement>('#message-input')!;
-
-
+    const messagesUl = document.querySelector<HTMLUListElement>('#messages-ul')!;
 
 
     //para escuchar socket.on, para hablar socket.emit
@@ -58,6 +56,17 @@ const addListeners = (socket: Socket ) => {
 
         messageInput.value = '';
 
-
     });
+
+    socket.on('message-from-server', (payload: {fullName:string, message: string})=>{
+        const  newMessage = `
+        <li>
+            <strong>${payload.fullName}</strong>
+            <strong>${payload.message}</strong>
+        </li>
+        `;
+        const  li = document.createElement('li');
+        li.innerHTML = newMessage;
+        messagesUl.append(li);
+    })
 }
